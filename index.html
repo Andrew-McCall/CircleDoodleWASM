@@ -13,10 +13,15 @@
         let canvas = document.getElementById('canvas');
         import init, { get_pixel_data } from "./pkg/circle_doodle.js";
         init().then(() => {
-            let ctx = canvas.getContext('2d');
-            let pixelData = get_pixel_data(new Date().getUTCMilliseconds());
-            let imageData = new ImageData(new Uint8ClampedArray(pixelData), canvas.width, canvas.height);
-            ctx.putImageData(imageData, 0, 0);
+            
+            setInterval(() => {
+                let pixelData = get_pixel_data(new Date().getUTCMilliseconds());
+                let imageData = new ImageData(new Uint8ClampedArray(pixelData), canvas.width, canvas.height);
+                let ctx = canvas.getContext('2d');
+                ctx.putImageData(imageData, 0, 0);
+            }, 1000/30);
+
+
         });
     </script>
   </body>
