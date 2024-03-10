@@ -5,23 +5,48 @@
     <title>Code Pink</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Subscribe" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1> Circle Doodle </h1>
-    <canvas id="canvas" width="400" height="400"></canvas>
-    <script type="module">
+    <div>
+        <h1> Circle Doodle </h1>
+        <canvas id="canvas" width="600" height="600" style="height: 50%;"></canvas>
+        <form>
+            <input type="range" id="radius" min="10" max="100" value="50">
+            <label for="radius">50</label>
+        </form>
+    </div>
+   
+    <script type="module" >
         let canvas = document.getElementById('canvas');
-        import init, { get_pixel_data } from "./pkg/circle_doodle.js";
+        let radius = document.getElementById('radius');
+        radius.value = 50;
+
+        let label = document.querySelector('label[for="radius"]');
+        radius.addEventListener('input', (event) => {
+            label.textContent = event.target.value;
+        });
+
+        import init, { get_pixel_data, add_circle } from "./pkg/circle_doodle.js";
         init().then(() => {
-            
-            setInterval(() => {
+
+            const render = () => {
                 let pixelData = get_pixel_data(new Date().getUTCMilliseconds());
                 let imageData = new ImageData(new Uint8ClampedArray(pixelData), canvas.width, canvas.height);
                 let ctx = canvas.getContext('2d');
                 ctx.putImageData(imageData, 0, 0);
-            }, 1000/30);
+                
+            }
 
+            render();
 
+            canvas.addEventListener('click', (event) => {
+                let x = event.offsetX;
+                let y = event.offsetY;
+                let r = radius.value;
+                add_circle(x, y, r);
+                render();
+            })
         });
     </script>
   </body>
