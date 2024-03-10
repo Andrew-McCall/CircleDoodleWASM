@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <title>Code Pink</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Subscribe" />
+  </head>
+  <body>
+    <h1> Circle Doodle </h1>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script type="module">
+        let canvas = document.getElementById('canvas');
+        import init, { get_pixel_data } from "./pkg/circle_doodle.js";
+        init().then(() => {
+            let ctx = canvas.getContext('2d');
+            let pixelData = get_pixel_data(new Date().getUTCMilliseconds());
+            let imageData = new ImageData(new Uint8ClampedArray(pixelData), canvas.width, canvas.height);
+            ctx.putImageData(imageData, 0, 0);
+        });
+    </script>
+  </body>
+</html>
