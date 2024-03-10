@@ -56,7 +56,7 @@ pub fn get_pixel_data() -> Vec<u8> {
     }
 
     unsafe{
-        if CIRCLES.len() > 15 {
+        if CIRCLES.len() > 20 {
             recursive_fill(200,200 , &mut data);
             recursive_fill(540,200 , &mut data);
             recursive_fill(340,500 , &mut data);
