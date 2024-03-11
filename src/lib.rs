@@ -56,10 +56,10 @@ pub fn get_pixel_data() -> Vec<u8> {
     }
 
     unsafe{
-        if CIRCLES.len() > 20 {
-            recursive_fill(200,200 , &mut data);
-            recursive_fill(540,200 , &mut data);
-            recursive_fill(340,500 , &mut data);
+        if CIRCLES.len() > 50 {
+            loop_fill(200,200 , &mut data);
+            loop_fill(540,200 , &mut data);
+            loop_fill(340,500 , &mut data);
         }
     }
   
@@ -70,6 +70,28 @@ pub fn get_pixel_data() -> Vec<u8> {
 pub fn add_circle(x:u32, y:u32, r:u32){
     unsafe {
         CIRCLES.push(Circle::new(x,y,r));
+    }
+}
+
+fn loop_fill(x: usize, y:usize, data:&mut Vec<u8>){
+    let mut stack = Vec::new();
+    stack.push((x,y));
+    while let Some((x,y)) = stack.pop(){
+        if x >= SIZE || y >= SIZE || x == 0 || y == 0{
+            continue;
+        }
+        let index = (y * SIZE + x) * 4;
+        if data[index] == ON.0 {
+            continue;
+        }
+        data[index] = ON.0;
+        data[index + 1] = ON.1;
+        data[index + 2] = ON.2;
+        data[index + 3] = 255;
+        stack.push((x+1, y));
+        stack.push((x, y+1));
+        stack.push((x-1, y));
+        stack.push((x, y-1));
     }
 }
 
