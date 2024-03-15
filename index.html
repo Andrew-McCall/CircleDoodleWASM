@@ -31,11 +31,10 @@
         init().then(() => {
 
             const render = () => {
-                let pixelData = get_pixel_data(new Date().getUTCMilliseconds());
+                let pixelData = get_pixel_data();
                 let imageData = new ImageData(new Uint8ClampedArray(pixelData), canvas.width, canvas.height);
                 let ctx = canvas.getContext('2d');
                 ctx.putImageData(imageData, 0, 0);
-                
             }
 
             render();
